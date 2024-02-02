@@ -26,7 +26,7 @@ int kthElem(vector<int> v, int k, int left, int right){
         }else if(pos-left > k-1){
             return kthElem(v, k, left, pos-1);
         }else{
-            return kthElem(v, k-(pos+left-1), pos+1, right);
+            return kthElem(v, k-pos+left-1, pos+1, right);
         }
     }
     return -1;
