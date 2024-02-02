@@ -2,7 +2,7 @@
 #include <vector>
 using namespace std;
 // Function to make the partition
-int partition(vector<int> &v, int left, int right){
+int partition(vector<int> v, int left, int right){
     int pe = v[right];
     int i = left;
 
@@ -17,16 +17,16 @@ int partition(vector<int> &v, int left, int right){
 }
 
 // Function to find kth smallest element
-int kthElem(vector<int> &v, int k, int left, int right){
+int kthElem(vector<int> v, int k, int left, int right){
     if(k>0 && k<=right-left+1){
         int pos = partition(v, left, right);
         
-        if(pos-left == k-left){
+        if(pos-left == k-1){
             return v[pos];
-        }else if(pos-left > k-left){
-            kthElem(v, k, left, pos-1);
+        }else if(pos-left > k-1){
+            return kthElem(v, k, left, pos-1);
         }else{
-            kthElem(v, k-(pos-left+1), pos+1, right);
+            return kthElem(v, k-(pos+left-1), pos+1, right);
         }
     }
     return -1;
