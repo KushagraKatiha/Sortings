@@ -1,9 +1,35 @@
-#include <iostream>
+ #include <iostream>
 #include <vector>
 using namespace std;
+// Function to make the partition
+int partition(vector<int> &v, int left, int right){
+    int pe = v[right];
+    int i = left;
+
+    for(int j = left; j < right; j++){
+        if(v[j]<pe){
+            swap(v[i], v[j]);
+            i++;
+        }
+    }
+    swap(v[i], v[right]);
+    return i;
+}
+
 // Function to find kth smallest element
-int kthElem(int *arr, int size, int k){
-    
+int kthElem(vector<int> &v, int k, int left, int right){
+    if(k>0 && k<=right-left+1){
+        int pos = partition(v, left, right);
+        
+        if(pos-left == k-left){
+            return v[pos];
+        }else if(pos-left > k-left){
+            kthElem(v, k, left, pos-1);
+        }else{
+            kthElem(v, k-(pos-left+1), pos+1, right);
+        }
+    }
+    return -1;
 }
 int main(){
     // Program to find kth smallest element in an array using QuickSort
@@ -11,10 +37,8 @@ int main(){
     vector<int> v(n);
     cout<<"Enter elements of the array: ";
 
-    for(int i : v){
-        int ele; 
-        cin>>ele;
-        v.push_back(ele);
+    for(int i = 0; i < n; i++){
+        cin>>v[i];
     }
 
     cout<<"Input array is: ";
@@ -25,8 +49,8 @@ int main(){
 
     int x; cout<<"Enter x: "; cin>>x;
 
-    int result = kthElem(v, n, k);
-    cout<<result;
+    int result = kthElem(v, x, 0, n-1);
+    cout<<result<<endl;
 
     return 0;
 }
